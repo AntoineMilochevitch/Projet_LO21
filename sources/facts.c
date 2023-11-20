@@ -1,6 +1,6 @@
 #include "../headers/facts.h"
 
-bool isEmptyFact(BF bf) {
+bool isEmptyBF(BF bf) {
     if(bf == NULL) {
         return true;
     }

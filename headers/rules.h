@@ -23,8 +23,8 @@ typedef char *Conclusion;
  Definition rule
 */
 typedef struct rule {
-    Proposition *premises;
-    Proposition *conclusion;
+    Premise  premises;
+    Conclusion conclusion;
 } Rule;
 
 

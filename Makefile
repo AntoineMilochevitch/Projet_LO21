@@ -1,14 +1,25 @@
-CC=gcc
-CFLAGS=-I./headers -I./sources -Wall -g
+CC = gcc
+CFLAGS = -Wall -lm -Iheaders
+OBJDIR = objects
+BINDIR = bin
+SRC_DIR = sources
 
-DEPS = headers/rules.h headers/knowledge_base.h
-OBJ = sources/main.o sources/rules.o sources/knowledge_base.o
+SRC = $(wildcard $(SRC_DIR)/*.c)
+EXEC = $(BINDIR)/project
+OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJDIR)/%.o,$(SRC))
 
-%.o: %.c $(DEPS)
-    $(CC) -c -o $@ $< $(CFLAGS)
+all: $(EXEC)
 
-main: $(OBJ)
-    $(CC) -o $@ $^ $(CFLAGS)
+$(EXEC): $(OBJ)
+	mkdir -p $(BINDIR)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+$(OBJDIR)/%.o: $(SRC_DIR)/%.c
+	mkdir -p $(OBJDIR)
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
-    rm -f sources/*.o main
+	rm -rf $(OBJDIR)
+
+mrproper: clean
+	rm -rf $(BINDIR)

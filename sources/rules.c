@@ -28,7 +28,7 @@ bool isEmptyConclusion(Conclusion c) {
     return false;
 }
 
-bool isPropostion(Premise p, char *content) {
+bool isProposition(Premise p, char *content) {
     if(isEmptyPremise(p)) {
         return false;
     }
@@ -37,7 +37,7 @@ bool isPropostion(Premise p, char *content) {
             return true;
         }
         else {
-            return isPropostion(p->next, content);
+            return isProposition(p->next, content);
         }
     }
 }
@@ -52,19 +52,20 @@ Rule addProposition(Rule rule, char* content) {
     }
     // if the rule is not empty
     else {
-        if(isProposition(rule.premises, content)) {
-            printf("The proposition %s is already in the rule\n", content);
-        }
-        else {
-            Premise new = (Premise) malloc(sizeof(Premise));
+        if(!isProposition(rule.premises, content)) {
+            Rule tmp = rule;
+            while(!isEmptyPremise(tmp.premises->next)) {
+                tmp.premises = tmp.premises->next;
+            }
+            Premise new = (Premise) malloc(sizeof(Proposition));
             new->content = (char*)malloc(strlen(content) + 1);
             strcpy(new->content, content);
             new->next = NULL;
-            Rule tmp = rule;
-            while(isEmptyPremise(tmp.premises->next)) {
-                tmp.premises = tmp.premises->next;
-            }
             tmp.premises->next = new;
+           
+        }
+        else {
+            printf("The proposition %s is already in the rule\n", content);
         }
     }
     return rule;
@@ -77,9 +78,8 @@ Rule createConclusion(Rule rule, char* content) {
     else {
         if(isEmptyConclusion(rule.conclusion)) {
             rule.conclusion = (Conclusion) malloc(sizeof(Conclusion));
-            rule.conclusion->content = malloc(strlen(content));
-            strcpy(rule.conclusion->content, content);
-            rule.conclusion->next = NULL;
+            rule.conclusion = malloc(strlen(content)+1);
+            strcpy(rule.conclusion, content);
         }
         else {
             printf("The conclusion is already set\n");
@@ -122,7 +122,7 @@ char *getConclusion(Rule r) {
         return NULL;
     }
     else {
-        return r.conclusion->content;
+        return r.conclusion;
     }
 }
 
@@ -132,29 +132,34 @@ void deleteRule(Rule r) {
         return;
     }
     else {
-        Premise tmp = r.premises;
-        while(!isEmptyPremise(tmp)) {
-            Premise next = tmp->next;
+        while (!isEmptyPremise(r.premises)) {
+            Premise tmp = r.premises;
+            r.premises = r.premises->next;
             free(tmp->content);
             free(tmp);
-            tmp = next;
         }
-        free(r.conclusion->content);
-        free(r.conclusion);
+        if(r.conclusion != NULL) {
+            free(r.conclusion);
+        }
+        r.conclusion = NULL;
+        r.premises = NULL;
+        
     }
 }
 
 void displayRule(Rule r) {
     if(isEmptyRule(r)) {
         printf("The rule is empty\n");
+        return;
     }
     else {
         printf("Premises : ");
         Premise tmp = r.premises;
-        while(!isEmptyPremise(tmp)) {
-            printf("%s &", tmp->content);
+        while(!isEmptyPremise(tmp->next)) {
+            printf("%s & ", tmp->content);
             tmp = tmp->next;
         }
-        printf("\nConclusion : %s\n", r.conclusion->content);
+        printf("%s\n", tmp->content);
+        printf("\nConclusion : %s\n", r.conclusion);
     }
 }

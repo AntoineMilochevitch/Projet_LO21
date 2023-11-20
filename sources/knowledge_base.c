@@ -54,9 +54,11 @@ void displayBC(BC bc) {
     else {
         printf("Knowledge base : \n");
         BC tmp = bc;
-        while (tmp->next != NULL) {
+        tmp = tmp->next;
+        while (tmp != NULL) {
             printf("Rule : \n");
             displayRule(getHeadRule(tmp));
+            tmp = tmp->next;
         }  
     }
 }
