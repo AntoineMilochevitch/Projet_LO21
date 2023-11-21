@@ -1,5 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -lm -Iheaders
+CFLAGS = -Wall -lm -Iheaders `sdl2-config --cflags`
+LDFLAGS = `sdl2-config --libs`
 OBJDIR = objects
 BINDIR = bin
 SRC_DIR = sources
@@ -12,7 +13,7 @@ all: $(EXEC)
 
 $(EXEC): $(OBJ)
 	mkdir -p $(BINDIR)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 $(OBJDIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(OBJDIR)

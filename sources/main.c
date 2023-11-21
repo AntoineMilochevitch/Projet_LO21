@@ -1,5 +1,6 @@
 #include "../headers/rules.h"
 #include "../headers/knowledge_base.h"
+#include "../headers/CreateWindw.h"
 
 #define MAX_LINE_SIZE 1024
 #define MAX_PROP_SIZE 256
@@ -30,6 +31,8 @@ int main() {
         displayRule(r);
         bc = addRuleBC(bc, r);
     }*/
+    createWindow();
+
     printf("createRule\n");
     Rule Rule1 = createRule();
     printf("addProposition A\n");
