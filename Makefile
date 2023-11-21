@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -lm -Iheaders `sdl2-config --cflags`
-LDFLAGS = `sdl2-config --libs`
+CFLAGS = -Wall -lm -Iheaders `sdl2-config --cflags` `pkg-config --cflags SDL2_ttf`
+LDFLAGS = `sdl2-config --libs` `pkg-config --libs SDL2_ttf`
 OBJDIR = objects
 BINDIR = bin
 SRC_DIR = sources
