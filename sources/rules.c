@@ -136,6 +136,7 @@ void deleteRule(Rule r) {
             Premise tmp = r.premises;
             r.premises = r.premises->next;
             free(tmp->content);
+            printf("Manque de Skill");
             free(tmp);
         }
         if(r.conclusion != NULL) {
