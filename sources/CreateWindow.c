@@ -3,30 +3,21 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
-void printTextOnScreen(SDL_Window *window, SDL_Renderer *renderer, char* str, unsigned short x, unsigned short y) {
+void printTextOnScreen(SDL_Window *window, SDL_Renderer *renderer, char* str, unsigned short fontSize, unsigned short x, unsigned short y) {
     TTF_Init();
-    int totalHeight = 0;
-
-    for (int i = 0; i < 10; i++) {
-        TTF_Font *font = TTF_OpenFont("./assets/OpenSans-Regular.ttf", i * 9);
-        SDL_Color color = {0, 0, 0, 255};
-        SDL_Surface *surface = TTF_RenderText_Solid(font, str, color);
-        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_Rect textRect;
-        textRect.x = x;
-        textRect.y = y + totalHeight; // Use totalHeight instead of surface->h * 2
-        textRect.w = surface->w;
-        textRect.h = surface->h;
-
-        SDL_RenderCopy(renderer, texture, NULL, &textRect);
-
-        totalHeight += surface->h; // Update total height
-        totalHeight += 5; // Add some extra space between lines (adjust as needed)
-
-        SDL_DestroyTexture(texture);
-        SDL_FreeSurface(surface);
-        TTF_CloseFont(font);
-    }
+    TTF_Font *font = TTF_OpenFont("./assets/OpenSans-Regular.ttf", fontSize);
+    SDL_Color color = {0, 0, 0, 255};
+    SDL_Surface *surface = TTF_RenderText_Solid(font, str, color);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_Rect textRect;
+    textRect.x = x;
+    textRect.y = y;
+    textRect.w = surface->w;
+    textRect.h = surface->h;
+    SDL_RenderCopy(renderer, texture, NULL, &textRect);
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(surface);
+    TTF_CloseFont(font);
     TTF_Quit();
 }
 
@@ -37,12 +28,12 @@ void createWindow() {
     }
     // Create a window
     SDL_Window* window = SDL_CreateWindow(
-        "Moteur d'inférence",                   // Window title
-        SDL_WINDOWPOS_CENTERED,         // X position
-        SDL_WINDOWPOS_CENTERED,         // Y position
-        640,                            // Width
-        480,                            // Height
-        SDL_WINDOW_SHOWN                // Flags
+        "Moteur d'inférence",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        640,
+        480,
+        SDL_WINDOW_SHOWN
     );
 
     if (!window) {
@@ -64,7 +55,8 @@ void createWindow() {
     // Clear the window with the renderer color
     SDL_RenderClear(renderer);
 
-    printTextOnScreen(window, renderer, "Hello World", 0, 0);
+    printTextOnScreen(window, renderer, "Hello World", 20, 0, 0);
+
     // Update the screen
     SDL_RenderPresent(renderer);
 

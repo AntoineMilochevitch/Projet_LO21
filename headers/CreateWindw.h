@@ -7,6 +7,6 @@
 #include <SDL2/SDL_ttf.h>
 
 void createWindow();
-void printTextOnScreen(SDL_Window *window, SDL_Renderer *renderer, char*, unsigned short x, unsigned short y);
+void printTextOnScreen(SDL_Window *window, SDL_Renderer *renderer, char*, unsigned short fontSize, unsigned short x, unsigned short y);
 
 #endif
