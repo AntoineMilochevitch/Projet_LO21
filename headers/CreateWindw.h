@@ -17,10 +17,17 @@ typedef struct dropdown{
     struct dE *head;
 } DropDown;
 
+typedef struct {
+    unsigned short x, y, w, h;
+    char* label;
+} Button;
+
 void createWindow();
 void printTextOnScreen(SDL_Window *window, SDL_Renderer *renderer, char*, unsigned short fontSize, unsigned short x, unsigned short y);
 void printButtonOnScreen(SDL_Window *window, SDL_Renderer *renderer, char* str, unsigned short x, unsigned short y, unsigned short w, unsigned short h);
 void printDropdownOnScreen(SDL_Window *windows, SDL_Renderer *renderer, char* str, unsigned short x, unsigned short y, unsigned short w, unsigned short h);
 void printImageToScreen(SDL_Window *window, SDL_Renderer *renderer, SDL_Surface *image, unsigned short x, unsigned short y, unsigned short w, unsigned short h);
+void handleButtonClick(SDL_Event *event, int *clickedButton, int *buttonClicked, Button *buttons);
+int isMouseInsideButton(int mouseX, int mouseY, unsigned short x, unsigned short y, unsigned short w, unsigned short h);
 
 #endif

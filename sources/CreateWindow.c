@@ -14,8 +14,8 @@ void printImageToScreen(SDL_Window *window, SDL_Renderer *renderer, SDL_Surface 
 void printButtonOnScreen(SDL_Window *window, SDL_Renderer *renderer, char* str, unsigned short x, unsigned short y, unsigned short w, unsigned short h){
     TTF_Init();
     printImageToScreen(window, renderer, SDL_LoadBMP("./assets/josh_hutcherson_whistle.bmp"), x, y, w, h);
-    TTF_Font* font = TTF_OpenFont("./assets/OpenSans-Regular.ttf", 25 ); // Adjust font and size as needed
-    SDL_Color textColor = { 0, 0, 0 }; // White color
+    TTF_Font* font = TTF_OpenFont("./assets/OpenSans-Regular.ttf", 25 );
+    SDL_Color textColor = { 0, 0, 0 };
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, str, textColor);
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
@@ -30,6 +30,25 @@ void printButtonOnScreen(SDL_Window *window, SDL_Renderer *renderer, char* str, 
     SDL_DestroyTexture(textTexture);
     TTF_CloseFont(font);
 }
+
+int isMouseInsideButton(int mouseX, int mouseY, unsigned short x, unsigned short y, unsigned short w, unsigned short h) {
+    return (mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h);
+}
+
+void handleButtonClick(SDL_Event *event, int *clickedButton, int *buttonClicked, Button *buttons) {
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
+    if (event->type == SDL_MOUSEBUTTONDOWN) {
+        *buttonClicked = -1;
+        for (int i = 0; i < *clickedButton; ++i) {
+            if (isMouseInsideButton(mouseX, mouseY, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h)) {
+                *buttonClicked = i;
+                break;
+            }
+        }
+    }
+}
+
 
 void printDropdownOnScreen(SDL_Window *windows, SDL_Renderer *renderer, char* str, unsigned short x, unsigned short y, unsigned short w, unsigned short h){
 
@@ -87,7 +106,15 @@ void createWindow() {
     // Clear the window with the renderer color
     SDL_RenderClear(renderer);
 
-    printButtonOnScreen(window, renderer, "Troll", 100, 100, 150, 75);
+    Button buttons[5];
+    buttons[0] = (Button){100, 50, 200, 50, "Button 1"};
+    buttons[1] = (Button){100, 150, 200, 50, "Button 2"};
+    buttons[2] = (Button){100, 250, 200, 50, "Button 3"};
+    buttons[3] = (Button){100, 350, 200, 50, "Button 4"};
+    buttons[4] = (Button){100, 450, 200, 50, "Button 5"};
+    int clickedButton = 5;
+    int buttonClicked = -1;
+
 
     // Update the screen
     SDL_RenderPresent(renderer);
@@ -102,7 +129,16 @@ void createWindow() {
             if (event.type == SDL_QUIT) {
                 isRunning = 0;
             }
+            handleButtonClick(&event, &clickedButton, &buttonClicked, buttons);
         }
+        for (int i = 0; i < clickedButton; ++i) {
+            printButtonOnScreen(window, renderer, buttons[i].label, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h);
+        }
+        if (buttonClicked != -1) {
+            printf("Button %d clicked!\n", buttonClicked + 1);
+            buttonClicked = -1;
+        }
+        SDL_RenderPresent(renderer);
     }
 
     // Cleanup
