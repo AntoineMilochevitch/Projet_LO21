@@ -1,6 +1,7 @@
 #include "../headers/rules.h"
 #include "../headers/knowledge_base.h"
 #include "../headers/CreateWindw.h"
+#include "../headers/facts.h"
 
 #define MAX_LINE_SIZE 1024
 #define MAX_PROP_SIZE 256
@@ -31,9 +32,9 @@ int main() {
         displayRule(r);
         bc = addRuleBC(bc, r);
     }*/
-    createWindow();
+    //createWindow();
 
-    printf("createRule\n");
+    /*printf("createRule\n");
     Rule Rule1 = createRule();
     printf("addProposition A\n");
     Rule1 = addProposition(Rule1, "A");
@@ -68,8 +69,24 @@ int main() {
     printf("displayBC\n");
     displayBC(bc);
 
+    printf("getHeadRule\n");
+    char *headProposition = getHeadProposition(Rule1);
+    printf("Head proposition : %s\n", headProposition);
+
+    printf("getConclusion\n");
+    char *conclusion = getConclusion(Rule1);
+    printf("Conclusion : %s\n", conclusion);
+
+    printf("deleteProposition\n");
+    Rule1.premises = deleteProposition(Rule1.premises, "A");
+    displayRule(Rule1);
+
     printf("deleteRule\n");
     deleteRule(Rule1);
+    Rule = NULL;
+
+    //printf("deleteBC\n");
+    //deleteBC(bc);
 
     if(isEmptyRule(Rule1)) {
         printf("Rule1 is empty\n");
@@ -79,8 +96,19 @@ int main() {
     }
     printf("displayRule\n");
     displayRule(Rule1);
-    displayBC(bc);
-    //fclose(file);
+    //displayBC(bc);
+    //fclose(file);*/
+
+    printf("createBF\n");
+    BF bf = createBF();
+
+    printf("addFactBF\n");
+    bf = addFactBF(bf, "A");
+    printf("addFactBF\n");
+    bf = addFactBF(bf, "B");
+
+    printf("displayBF\n");
+    displayBF(bf);
 
     return 0;
 }

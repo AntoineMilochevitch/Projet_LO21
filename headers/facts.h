@@ -4,12 +4,11 @@
 #include "../headers/rules.h"
 #include "../headers/knowledge_base.h"
 
-typedef struct facts {
-    Proposition *facts;
-    struct facts *next;
-} Facts;
 
-typedef Facts *BF;
+/*
+ Definition proposition because it is the same as in rules.h
+*/
+typedef Proposition *BF;
 
 
 /********************************

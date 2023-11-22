@@ -8,30 +8,27 @@ bool isEmptyBF(BF bf) {
 }
 
 BF createBF() {
-    BF bf = (BF)malloc(sizeof(Facts));
-    bf->facts = NULL;
-    bf->next = NULL;
+    BF bf = NULL;
     return bf;
 }
 
 BF addFactBF(BF bf,char *content) {
-    Proposition *p = (Proposition*)malloc(sizeof(Proposition));
-    p->content = (char*)malloc(strlen(content) + 1);
-    strcpy(p->content, content);
-    p->next = NULL;
-
-    BF new = (BF)malloc(sizeof(Facts));
-    new->facts = p;
-    new->next = NULL;
     if (isEmptyBF(bf)) {
-        bf->facts = p;
+        printf("Empty facts base\n");
+        bf = (BF)malloc(sizeof(Proposition));
+        bf->content = (char*)malloc(strlen(content));
+        strcpy(bf->content, content);
         bf->next = NULL;
     }
     else {
         BF tmp = bf;
-        while(tmp->next != NULL) {
+        while(!isEmptyBF(tmp->next)) {
             tmp = tmp->next;
         }
+        BF new = (BF)malloc(sizeof(Proposition));
+        new->content = (char*)malloc(strlen(content));
+        strcpy(new->content, content);
+        new->next = NULL;
         tmp->next = new;
     }
     return bf;
@@ -41,9 +38,21 @@ void deleteBF(BF bf) {
     if(bf == NULL) {
         return;
     }
-
     deleteBF(bf->next);
-    free(bf->facts->content);
-    free(bf->facts);
+    free(bf->content);
     free(bf);
+}
+
+void displayBF(BF bf) {
+    if(isEmptyBF(bf)) {
+        printf("Empty facts base\n");
+    }
+    else {
+        printf("Facts base : \n");
+        BF tmp = bf; 
+        while (tmp != NULL) {
+            printf("Fact : %s\n", tmp->content);
+            tmp = tmp->next;
+        }
+    }
 }
