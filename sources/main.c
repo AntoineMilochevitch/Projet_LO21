@@ -99,6 +99,8 @@ int main() {
     //displayBC(bc);
     //fclose(file);*/
 
+    createWindow();
+
     printf("createBF\n");
     BF bf = createBF();
 

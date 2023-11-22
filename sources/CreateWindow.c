@@ -11,12 +11,24 @@ void printImageToScreen(SDL_Window *window, SDL_Renderer *renderer, SDL_Surface 
     SDL_FreeSurface(image);
 }
 
-void emitSound(){
-
-}
-
 void printButtonOnScreen(SDL_Window *window, SDL_Renderer *renderer, char* str, unsigned short x, unsigned short y, unsigned short w, unsigned short h){
+    TTF_Init();
+    printImageToScreen(window, renderer, SDL_LoadBMP("./assets/josh_hutcherson_whistle.bmp"), x, y, w, h);
+    TTF_Font* font = TTF_OpenFont("./assets/OpenSans-Regular.ttf", 25 ); // Adjust font and size as needed
+    SDL_Color textColor = { 0, 0, 0 }; // White color
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, str, textColor);
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
+    int textWidth = textSurface->w;
+    int textHeight = textSurface->h;
+    int textX = x + (w - textWidth) / 2;
+    int textY = y + (h - textHeight) / 2;
+    SDL_Rect textRect = { textX, textY, textWidth, textHeight };
+    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
 }
 
 void printDropdownOnScreen(SDL_Window *windows, SDL_Renderer *renderer, char* str, unsigned short x, unsigned short y, unsigned short w, unsigned short h){
@@ -75,8 +87,7 @@ void createWindow() {
     // Clear the window with the renderer color
     SDL_RenderClear(renderer);
 
-    printImageToScreen(window, renderer, SDL_LoadBMP("./assets/josh_hutcherson_whistle.bmp"), 5, 5, 600, 400);
-    printTextOnScreen(window, renderer, "Josh Hutcherson", 20, 0, 420);
+    printButtonOnScreen(window, renderer, "Troll", 100, 100, 150, 75);
 
     // Update the screen
     SDL_RenderPresent(renderer);
