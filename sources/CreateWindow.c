@@ -3,6 +3,26 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+void printImageToScreen(SDL_Window *window, SDL_Renderer *renderer, SDL_Surface *image, unsigned short x, unsigned short y, unsigned short w, unsigned short h){
+    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, image);
+    SDL_Rect dstrect = { x, y, w, h };
+    SDL_RenderCopy(renderer, texture, NULL, &dstrect);
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(image);
+}
+
+void emitSound(){
+
+}
+
+void printButtonOnScreen(SDL_Window *window, SDL_Renderer *renderer, char* str, unsigned short x, unsigned short y, unsigned short w, unsigned short h){
+
+}
+
+void printDropdownOnScreen(SDL_Window *windows, SDL_Renderer *renderer, char* str, unsigned short x, unsigned short y, unsigned short w, unsigned short h){
+
+}
+
 void printTextOnScreen(SDL_Window *window, SDL_Renderer *renderer, char* str, unsigned short fontSize, unsigned short x, unsigned short y) {
     TTF_Init();
     TTF_Font *font = TTF_OpenFont("./assets/OpenSans-Regular.ttf", fontSize);
@@ -55,7 +75,8 @@ void createWindow() {
     // Clear the window with the renderer color
     SDL_RenderClear(renderer);
 
-    printTextOnScreen(window, renderer, "Hello World", 20, 0, 0);
+    printImageToScreen(window, renderer, SDL_LoadBMP("./assets/josh_hutcherson_whistle.bmp"), 5, 5, 600, 400);
+    printTextOnScreen(window, renderer, "Josh Hutcherson", 20, 0, 420);
 
     // Update the screen
     SDL_RenderPresent(renderer);
