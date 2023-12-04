@@ -55,3 +55,14 @@ void displayBF(BF bf) {
         }
     }
 }
+
+bool isFact(BF bf, Premise p) {
+    Proposition *currentFact = bf;
+    while (currentFact != NULL) {
+        if (strcmp(currentFact->content, p->content) == 0) {
+            return true;
+        }
+        currentFact = currentFact->next;
+    }
+    return false;
+}

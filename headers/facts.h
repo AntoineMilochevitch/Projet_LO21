@@ -55,4 +55,13 @@ void deleteBF(BF bf);
  */
 void displayBF(BF bf);
 
+/********************************
+ * @brief function checking if a proposition is in the fact base
+ * 
+ * @param bf fact base to check
+ * @param proposition proposition to check
+ * @return true if the proposition is in the fact base, false otherwise
+ */
+bool isFact(BF bf, Premise p);
+
 #endif

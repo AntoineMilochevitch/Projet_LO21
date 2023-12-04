@@ -1,7 +1,7 @@
 #include "../headers/facts.h"
 #include "../headers/knowledge_base.h"
 #include "../headers/rules.h"
-
+/*
 BC search_premisse(const BC knowledge_basis, const BF fact_basis) {
 	BC knowledge_buffer = createBC();
 	BC known_fact = createBC();
@@ -50,4 +50,32 @@ void inference_engine(BC knowledge_basis, BF fact_basis) {
 			displayBF(fact_basis); //Test
 		}
 	}
+}*/
+
+bool allPremisesAreTrue(BF bf, Rule rule) {
+    Premise currentPremise = rule.premises;
+    while (currentPremise != NULL) {
+        if (!isFact(bf, currentPremise->content)) {
+            return false;
+        }
+        currentPremise = currentPremise->next;
+    }
+    return true;
+}
+
+void backwardInference(BF bf, BC bc, Proposition goal) {
+    if (isFact(bf, &(goal.content))) {
+        return;
+    }
+
+    KnowledgeBase *currentBC = bc;
+    while (currentBC != NULL) {
+        if (strcmp(currentBC->rules.conclusion, goal.content) == 0) {
+            if (allPremisesAreTrue(bf, currentBC->rules)) {
+                addFact(bf, currentBC->rules.conclusion);
+                return;
+            }
+        }
+        currentBC = currentBC->next;
+    }
 }
