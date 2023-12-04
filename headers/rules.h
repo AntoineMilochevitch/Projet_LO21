@@ -6,7 +6,6 @@
 #include <string.h>
 #include <stdbool.h>
 
-
 /*
  Definition proposition
 */

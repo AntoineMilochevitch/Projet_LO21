@@ -1,9 +1,8 @@
 #include "../headers/facts.h"
 
 bool isEmptyBF(BF bf) {
-    if(bf == NULL) {
+    if(bf == NULL)
         return true;
-    }
     return false;
 }
 
@@ -55,15 +54,4 @@ void displayBF(BF bf) {
             tmp = tmp->next;
         }
     }
-}
-
-bool isFact(BF bf, Premise p) {
-    Proposition *currentFact = bf;
-    while (currentFact != NULL) {
-        if (strcmp(currentFact->content, p->content) == 0) {
-            return true;
-        }
-        currentFact = currentFact->next;
-    }
-    return false;
 }

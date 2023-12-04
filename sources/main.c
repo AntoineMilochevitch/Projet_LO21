@@ -99,7 +99,7 @@ int main() {
     //displayBC(bc);
     //fclose(file);*/
 
-    createWindow();
+    BC knowledge_basis = createBC();
 
     printf("createBF\n");
     BF bf = createBF();
@@ -111,6 +111,8 @@ int main() {
 
     printf("displayBF\n");
     displayBF(bf);
+
+    menu(knowledge_basis);
 
     return 0;
 }

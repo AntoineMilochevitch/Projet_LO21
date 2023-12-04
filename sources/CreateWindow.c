@@ -49,7 +49,6 @@ void handleButtonClick(SDL_Event *event, int *clickedButton, int *buttonClicked,
     }
 }
 
-
 void printDropdownOnScreen(SDL_Window *windows, SDL_Renderer *renderer, char* str, unsigned short x, unsigned short y, unsigned short w, unsigned short h){
 
 }
