@@ -13,7 +13,7 @@ BF createBF() {
 
 BF addFactBF(BF bf,char *content) {
     if (isEmptyBF(bf)) {
-        printf("Empty facts base\n");
+        printf("Input of the first element in the BF...\n");
         bf = (BF)malloc(sizeof(Proposition));
         bf->content = (char*)malloc(strlen(content));
         strcpy(bf->content, content);

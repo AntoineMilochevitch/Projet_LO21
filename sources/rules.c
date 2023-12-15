@@ -161,6 +161,6 @@ void displayRule(Rule r) {
             tmp = tmp->next;
         }
         printf("%s\n", tmp->content);
-        printf("\nConclusion : %s\n", r.conclusion);
+        printf("Conclusion : %s\n\n", r.conclusion);
     }
 }

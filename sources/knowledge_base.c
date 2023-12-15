@@ -56,7 +56,6 @@ void displayBC(BC bc) {
         BC tmp = bc;
         tmp = tmp->next;
         while (tmp != NULL) {
-            printf("Rule : \n");
             displayRule(getHeadRule(tmp));
             tmp = tmp->next;
         }  

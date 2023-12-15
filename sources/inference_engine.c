@@ -1,8 +1,8 @@
 #include "../headers/facts.h"
 #include "../headers/knowledge_base.h"
 #include "../headers/rules.h"
-/*
-BC search_premisse(const BC knowledge_basis, const BF fact_basis) {
+
+BC search_premisse(const BC knowledge_basis, const BF fact_basis){
 	BC knowledge_buffer = createBC();
 	BC known_fact = createBC();
 	BF fact_buffer = createBF();
@@ -25,21 +25,19 @@ BC search_premisse(const BC knowledge_basis, const BF fact_basis) {
 	return known_fact;
 }
 
-void inference_engine(BC knowledge_basis, BF fact_basis) {
+void inference_engine(BC knowledge_basis, BF fact_basis){
 	if(isEmptyBC(knowledge_basis)) 
-        printf("La base de connaissance est vide\n");
+        printf("BC est vide\n");
 	else {
 		BC knowledge_buffer = createBC();
 		BF fact_buffer = createBF();
 		knowledge_buffer = knowledge_basis;
 		fact_buffer = fact_basis;
-
 		while(fact_buffer != NULL) {
 			knowledge_buffer = search_premisse(knowledge_buffer, fact_buffer);
 			printf("%s",fact_buffer->content); //DEBUG
 			fact_buffer = fact_buffer->next;
 		}
-
 		if (isEmptyBC(knowledge_buffer)) {
 			printf("\nAucune Plante ne correspond.\n");
 			displayBF(fact_basis); //Test
@@ -50,8 +48,8 @@ void inference_engine(BC knowledge_basis, BF fact_basis) {
 			displayBF(fact_basis); //Test
 		}
 	}
-}*/
-
+}
+/*
 bool allPremisesAreTrue(BF bf, Rule rule) {
     Premise currentPremise = rule.premises;
     while (currentPremise != NULL) {
@@ -78,4 +76,4 @@ void backwardInference(BF bf, BC bc, Proposition goal) {
         }
         currentBC = currentBC->next;
     }
-}
+}*/
