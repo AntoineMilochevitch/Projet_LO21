@@ -84,7 +84,7 @@ void sys_expert_input(BC knowledge_basis){
     printf("\nType de Feuillage de l'arbre ?\n");
     printf("1 : Caduc\n");
     printf("2 : Persistant\n");
-    printf("3 : Marcescent");
+    printf("3 : Marcescent\n");
 
     do {
 		printf("Choisissez : ");
@@ -159,7 +159,7 @@ void menu(BC knowledge_basis){
         deleteBC(knowledge_basis);
         break;
     case 4:
-        printf("Salud");
+        printf("Salud\n");
         exit(0);
         break;
     default:

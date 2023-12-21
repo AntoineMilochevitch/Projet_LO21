@@ -6,12 +6,10 @@ BC search_premisse(const BC knowledge_basis, const BF fact_basis){
 	BC knowledge_buffer = createBC();
 	BC known_fact = createBC();
 	BF fact_buffer = createBF();
-
 	knowledge_buffer = knowledge_basis;
 	fact_buffer = fact_basis;
-
 	while (!isEmptyBF(fact_buffer)) {
-		while (!isEmptyBC(knowledge_buffer)) {
+		while (!isEmptyBC(knowledge_buffer->next)) {
 			Premise premisse_buffer = knowledge_buffer->next->rules.premises;
 			while (premisse_buffer != NULL) {
 				if (strcmp(premisse_buffer->content, fact_buffer->content) == 0 )
@@ -19,8 +17,8 @@ BC search_premisse(const BC knowledge_basis, const BF fact_basis){
 				premisse_buffer = premisse_buffer->next;
 			}
 			knowledge_buffer = knowledge_buffer->next;
-    }
-    fact_buffer = fact_buffer->next;
+		}
+		fact_buffer = fact_buffer->next;
 	}
 	return known_fact;
 }
@@ -29,23 +27,19 @@ void inference_engine(BC knowledge_basis, BF fact_basis){
 	if(isEmptyBC(knowledge_basis)) 
         printf("BC est vide\n");
 	else {
-		BC knowledge_buffer = createBC();
-		BF fact_buffer = createBF();
-		knowledge_buffer = knowledge_basis;
-		fact_buffer = fact_basis;
-		while(fact_buffer != NULL) {
-			knowledge_buffer = search_premisse(knowledge_buffer, fact_buffer);
-			printf("%s",fact_buffer->content); //DEBUG
-			fact_buffer = fact_buffer->next;
+		while(fact_basis != NULL) {
+			knowledge_basis = search_premisse(knowledge_basis, fact_basis);
+			//printf("Found : %s\n",fact_basis->content); //DEBUG
+			fact_basis = fact_basis->next;
 		}
-		if (isEmptyBC(knowledge_buffer)) {
+		if (isEmptyBC(knowledge_basis)) {
 			printf("\nAucune Plante ne correspond.\n");
-			displayBF(fact_basis); //Test
+			//displayBF(fact_basis); //Test
 		}
 		else {
-			printf("\nPlante correspondante : %s\n\n",knowledge_buffer->next->rules.conclusion);
-			displayBC(knowledge_buffer); //Test
-			displayBF(fact_basis); //Test
+			printf("\nPlante correspondante : %s\n\n",knowledge_basis->next->rules.conclusion);
+			//displayBC(knowledge_buffer); //Test
+			//displayBF(fact_basis); //Test
 		}
 	}
 }

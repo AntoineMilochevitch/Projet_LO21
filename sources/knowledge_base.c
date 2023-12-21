@@ -9,6 +9,10 @@ bool isEmptyBC(BC bc) {
 
 BC createBC() {
     BC bc = (BC)malloc(sizeof(KnowledgeBase));
+    if(bc == NULL){
+        printf("Memory allocation for a now Knowlegde Base failed");
+        exit(-1);
+    }
     bc->rules.premises = NULL;
     bc->next = NULL;
     return bc;
