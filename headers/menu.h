@@ -7,7 +7,7 @@
 
 long user_input_num();
 char* user_input_char();
-void userInputRule();
+void userInputRule(BC* knowledge_basis);
 void sys_expert_input(BC knowledge_basis);
 void menu(BC knowledge_basis);
 

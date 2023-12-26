@@ -17,14 +17,31 @@ char* user_input_char() {
 	char input[MAX_LENGHT];
 	fgets(input, MAX_LENGHT+1, stdin);
 	input[strlen(input) - 1] = 0;
-    // adjust the size of the string to fit perfectly in memory
 	char* result = (char*)malloc(strlen(input)+1);
 	strcpy(result, input);
 	return result;
 }
 
-void userInputRule(){
-    printf("Ajoute théoriquement une règle (tkt)\n");
+void userInputRule(BC* knowledge_basis){
+  printf("Ajoute théoriquement une règle (tkt)\n");
+  Rule UserRule = createRule();    
+  bool IsConclu = false;
+  while(!IsConclu){
+    printf("Ajouter une proposition (Si conclusion tapper 0) : ");
+    char* input = user_input_char();
+    if(strcmp(input, "0") == 0){
+      IsConclu = true;
+    }
+    else{
+      UserRule = addProposition(UserRule, input);
+      printf("Proposition %s ajoutée à la nouvelle règle.\n", input);
+    }
+  }
+  printf("Ecrire la conclusion : ");
+  char* conclusion = user_input_char();
+  UserRule = createConclusion(UserRule, conclusion);
+  *knowledge_basis = addRuleBC(*knowledge_basis, UserRule);
+  printf("Nouvelle règle %s ajoutée à la base de connaissance. \n",conclusion);
 }
 
 void sys_expert_input(BC knowledge_basis){
@@ -132,37 +149,41 @@ void sys_expert_input(BC knowledge_basis){
 }
 
 void menu(BC knowledge_basis){
-	unsigned short choice;
-	printf("\n");
+  bool isUp = true;
+  while(isUp){
+    unsigned short choice;
+    printf("\n");
     printf("0 - Trouver une plante\n");
     printf("1 - Liste des plantes enregistrées\n");
     printf("2 - Ajouter une règle \n");
     printf("3 - Supprimer la base de connaissance\n");
     printf("4 - Quitter\n\n");
+
     do {
-	    printf(">>> ");
-		choice = user_input_num();
+      printf(">>> ");
+      choice = user_input_num();
     } while (choice > 4 || choice < 0);
 
-    switch (choice)
-    {
-    case 0:
-        sys_expert_input(knowledge_basis);
-        break;
-    case 1:
-        displayBC(knowledge_basis);
-        break;
-    case 2:
-        userInputRule();
-        break;
-    case 3:
-        deleteBC(knowledge_basis);
-        break;
-    case 4:
-        printf("Salud\n");
-        exit(0);
-        break;
-    default:
-        break;
+    switch (choice){
+      case 0:
+          sys_expert_input(knowledge_basis);
+          break;
+      case 1:
+          displayBC(knowledge_basis);
+          break;
+      case 2:
+          userInputRule(&knowledge_basis);
+          break;
+      case 3:
+          deleteBC(knowledge_basis);
+          break;
+      case 4:
+          printf("Salud\n");
+          isUp = false;
+          break;
+      default:
+          break;
     }
+  }
+  exit(0);
 }
