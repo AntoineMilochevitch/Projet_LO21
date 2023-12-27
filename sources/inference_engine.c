@@ -2,44 +2,40 @@
 #include "../headers/knowledge_base.h"
 #include "../headers/rules.h"
 
-BC search_premisse(const BC knowledge_basis, const BF fact_basis){
-	BC knowledge_buffer = createBC();
-	BC known_fact = createBC();
-	BF fact_buffer = createBF();
-	knowledge_buffer = knowledge_basis;
-	fact_buffer = fact_basis;
-	while (!isEmptyBF(fact_buffer)) {
-		while (!isEmptyBC(knowledge_buffer->next)) {
-			Premise premisse_buffer = knowledge_buffer->next->rules.premises;
-			while (premisse_buffer != NULL) {
-				if (strcmp(premisse_buffer->content, fact_buffer->content) == 0 )
-					known_fact = addRuleBC(known_fact, knowledge_buffer->next->rules);
-				premisse_buffer = premisse_buffer->next;
-			}
-			knowledge_buffer = knowledge_buffer->next;
-		}
-		fact_buffer = fact_buffer->next;
-	}
-	return known_fact;
-}
+BC filterKnowledge(BC knowledge_basis, BF fact_basis) {
+    BC filtered_kb = createBC();
+    BC current_rule = knowledge_basis;
 
+    while (current_rule != NULL) {
+        Rule current_rule_content = getHeadRule(current_rule);
+        bool all_premises_match = true;
+        Premise current_premise = current_rule_content.premises;
+
+        while (current_premise != NULL) {
+            if (!isFact(fact_basis, current_premise)) {
+                all_premises_match = false;
+                break;
+            }
+            current_premise = current_premise->next;
+        }
+
+        if (all_premises_match) {
+            filtered_kb = addRuleBC(filtered_kb, current_rule_content);
+        }
+        current_rule = current_rule->next;
+    }
+    return filtered_kb;
+}
 void inference_engine(BC knowledge_basis, BF fact_basis){
 	if(isEmptyBC(knowledge_basis)) 
         printf("BC est vide\n");
 	else {
-		while(fact_basis != NULL) {
-			knowledge_basis = search_premisse(knowledge_basis, fact_basis);
-			//printf("Found : %s\n",fact_basis->content); //DEBUG
-			fact_basis = fact_basis->next;
-		}
-		if (isEmptyBC(knowledge_basis)) {
-			printf("\nAucune Plante ne correspond.\n");
-			//displayBF(fact_basis); //Test
-		}
-		else {
-			printf("\nPlante correspondante : %s\n\n",knowledge_basis->next->rules.conclusion);
-			//displayBC(knowledge_buffer); //Test
-			//displayBF(fact_basis); //Test
+		BC filtered_basis = filterKnowledge(knowledge_basis, fact_basis);
+		if (isEmptyBC(filtered_basis)) {
+    		printf("\nAucune Plante ne correspond.\n");
+		} else {
+			displayBC(filtered_basis);
+			printf("\nPlante correspondante : %s.\n", getConclusion(filtered_basis->rules));
 		}
 	}
 }
