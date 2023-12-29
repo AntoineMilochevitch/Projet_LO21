@@ -5,14 +5,21 @@
 BC filterKnowledge(BC knowledge_basis, BF fact_basis) {
     BC filtered_kb = createBC();
     BC current_rule = knowledge_basis;
+    if (current_rule != NULL) {
+        current_rule = current_rule->next;
+    }
 
     while (current_rule != NULL) {
         Rule current_rule_content = getHeadRule(current_rule);
+        printf("\nCurrent rule: \n");
+        displayRule(current_rule_content);  // suppose que displayRule affiche le contenu de la règle
         bool all_premises_match = true;
         Premise current_premise = current_rule_content.premises;
 
         while (current_premise != NULL) {
-            if (!isFact(fact_basis, current_premise)) {
+            bool is_fact = isFact(fact_basis, current_premise);
+            printf("Premise: %s, isFact: %d\n", current_premise->content, is_fact);
+            if (!is_fact) {
                 all_premises_match = false;
                 break;
             }
@@ -21,6 +28,8 @@ BC filterKnowledge(BC knowledge_basis, BF fact_basis) {
 
         if (all_premises_match) {
             filtered_kb = addRuleBC(filtered_kb, current_rule_content);
+            displayBC(filtered_kb);  // suppose que displayBC affiche le contenu de la base de connaissances7
+            printf("\n");
         }
         current_rule = current_rule->next;
     }
@@ -31,6 +40,7 @@ void inference_engine(BC knowledge_basis, BF fact_basis){
         printf("BC est vide\n");
 	else {
 		BC filtered_basis = filterKnowledge(knowledge_basis, fact_basis);
+        filtered_basis = filtered_basis->next;
 		if (isEmptyBC(filtered_basis)) {
     		printf("\nAucune Plante ne correspond.\n");
 		} else {
@@ -39,31 +49,3 @@ void inference_engine(BC knowledge_basis, BF fact_basis){
 		}
 	}
 }
-/*
-bool allPremisesAreTrue(BF bf, Rule rule) {
-    Premise currentPremise = rule.premises;
-    while (currentPremise != NULL) {
-        if (!isFact(bf, currentPremise->content)) {
-            return false;
-        }
-        currentPremise = currentPremise->next;
-    }
-    return true;
-}
-
-void backwardInference(BF bf, BC bc, Proposition goal) {
-    if (isFact(bf, &(goal.content))) {
-        return;
-    }
-
-    KnowledgeBase *currentBC = bc;
-    while (currentBC != NULL) {
-        if (strcmp(currentBC->rules.conclusion, goal.content) == 0) {
-            if (allPremisesAreTrue(bf, currentBC->rules)) {
-                addFact(bf, currentBC->rules.conclusion);
-                return;
-            }
-        }
-        currentBC = currentBC->next;
-    }
-}*/

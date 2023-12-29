@@ -36,7 +36,12 @@ BC addRuleBC(BC bc, Rule r) {
 }
 
 Rule getHeadRule(BC bc) {
+    if (isEmptyBC(bc)) {
+        printf("Knowledge base is empty\n");
+        exit(-1);
+    }
     return bc->rules;
+
 }
 
 void deleteBC(BC bc) {
@@ -58,7 +63,6 @@ void displayBC(BC bc) {
     else {
         printf("Knowledge base : \n");
         BC tmp = bc;
-        tmp = tmp->next;
         while (tmp != NULL) {
             displayRule(getHeadRule(tmp));
             tmp = tmp->next;
