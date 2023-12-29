@@ -23,7 +23,6 @@ char* user_input_char() {
 }
 
 void userInputRule(BC* knowledge_basis){
-  printf("Ajoute théoriquement une règle (tkt)\n");
   Rule UserRule = createRule();    
   bool IsConclu = false;
   while(!IsConclu){
@@ -166,21 +165,23 @@ void menu(BC knowledge_basis){
 
     switch (choice){
       case 0:
-          sys_expert_input(knowledge_basis);
-          break;
+        sys_expert_input(knowledge_basis);
+        break;
       case 1:
-          displayBC(knowledge_basis);
-          break;
+        displayBC(knowledge_basis);
+        break;
       case 2:
-          userInputRule(&knowledge_basis);
-          break;
+        userInputRule(&knowledge_basis);
+        break;
       case 3:
-          deleteBC(knowledge_basis);
-          break;
+        deleteBC(knowledge_basis);
+        printf("Base de connaissances supprimée... \n");
+        isUp = false;
+        break;
       case 4:
-          printf("Salud\n");
-          isUp = false;
-          break;
+        deleteBC(knowledge_basis);
+        isUp = false;
+        break;
       default:
           break;
     }

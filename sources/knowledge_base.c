@@ -46,7 +46,7 @@ Rule getHeadRule(BC bc) {
 
 void deleteBC(BC bc) {
     if(isEmptyBC(bc)) {
-        return;
+        return NULL;
     }
     else { 
         deleteRule(bc->rules);
