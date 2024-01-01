@@ -72,6 +72,9 @@ Rule addProposition(Rule rule, char* content) {
 }
 
 Rule createConclusion(Rule rule, char* content) {
+    if (isEmptyRule(rule)) {
+        printf("The rule is empty : impossible to create a conclusion\n");
+    }
     if(isEmptyPremise(rule.premises)) {
         printf("The premise is empty : impossible to create a conclusion\n");
     }
@@ -107,6 +110,10 @@ Premise deleteProposition(Premise p, char* content) {
 }
 
 char *getHeadProposition(Rule r) {
+    if (isEmptyRule(r)) {
+        printf("The rule is empty\n");
+        return NULL;
+    }
     if(isEmptyPremise(r.premises)) {
         printf("The premise is empty\n");
         return NULL;
@@ -117,6 +124,10 @@ char *getHeadProposition(Rule r) {
 }
 
 char *getConclusion(Rule r) {
+    if (isEmptyRule(r)) {
+        printf("The rule is empty\n");
+        return NULL;
+    }
     if(isEmptyConclusion(r.conclusion)) {
         printf("The conclusion is empty\n");
         return NULL;
